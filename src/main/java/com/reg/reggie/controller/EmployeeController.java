@@ -165,6 +165,6 @@ public class EmployeeController {
             return R.success(emp);
 
         }
-        return R.error("查询员工信息失败");
+        return R.error("员工信息修改失败");
     }
 }
