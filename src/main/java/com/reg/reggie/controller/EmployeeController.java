@@ -7,10 +7,8 @@ import com.reg.reggie.common.R;
 import com.reg.reggie.entity.Employee;
 import com.reg.reggie.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,13 +92,14 @@ public class EmployeeController {
         //设置初始密码
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
 
+        //使用公共字段填充
         //设置createTime,updateTime,createUser,updateUser
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+        //employee.setCreateTime(LocalDateTime.now());
+        //employee.setUpdateTime(LocalDateTime.now());
         //获取操作用户的id
-        Long empId = (Long) request.getSession().getAttribute("employee");
-        employee.setCreateUser(empId);
-        employee.setUpdateUser(empId);
+        //Long empId = (Long) request.getSession().getAttribute("employee");
+        //employee.setCreateUser(empId);
+        //employee.setUpdateUser(empId);
 
         employeeService.save(employee);
 
@@ -144,9 +143,10 @@ public class EmployeeController {
     public R<String> update(HttpServletRequest request ,@RequestBody Employee employee){
         log.info(employee.toString());
 
-        Long empId =(Long) request.getSession().getAttribute("employee");
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(empId);
+        //使用公共字段填充
+        //Long empId =(Long) request.getSession().getAttribute("employee");
+        //employee.setUpdateTime(LocalDateTime.now());
+        //employee.setUpdateUser(empId);
 
         employeeService.updateById(employee);
         return R.success("员工信息修改成功");
@@ -163,7 +163,6 @@ public class EmployeeController {
         Employee emp = employeeService.getById(id);
         if (emp != null) {
             return R.success(emp);
-
         }
         return R.error("员工信息修改失败");
     }

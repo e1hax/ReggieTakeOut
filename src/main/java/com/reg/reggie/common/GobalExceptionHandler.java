@@ -31,6 +31,19 @@ public class GobalExceptionHandler{
             String msg = split[2]+"已存在";
             return R.error(msg);
         }
-        return  R.error("添加失败");
+        return  R.error("未知错误");
+    }
+
+
+
+    /**
+     * 删除分类异常处理方法
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(CustomException.class)
+    public R<String> exceptionHandler(CustomException ex){
+        log.error(ex.getMessage());
+        return  R.error(ex.getMessage());
     }
 }
