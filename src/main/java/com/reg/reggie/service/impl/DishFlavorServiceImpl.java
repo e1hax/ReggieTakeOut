@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.reg.reggie.entity.DishFlavor;
 import com.reg.reggie.mapper.DishFlavorMapper;
 import com.reg.reggie.service.DishFlavorSerivce;
-import com.reg.reggie.service.DishService;
 import org.springframework.stereotype.Service;
 
 /**

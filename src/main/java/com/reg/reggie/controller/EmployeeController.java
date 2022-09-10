@@ -82,6 +82,7 @@ public class EmployeeController {
 
     /**
      * 添加员工
+     *
      * @param request
      * @param employee
      * @return
@@ -108,6 +109,7 @@ public class EmployeeController {
 
     /**
      * 员工管理分页查询
+     *
      * @param page
      * @param pageSize
      * @param name
@@ -135,12 +137,13 @@ public class EmployeeController {
 
     /**
      * 修改员工账号状态
+     *
      * @param request
      * @param employee
      * @return
      */
     @PutMapping
-    public R<String> update(HttpServletRequest request ,@RequestBody Employee employee){
+    public R<String> update(HttpServletRequest request, @RequestBody Employee employee) {
         log.info(employee.toString());
 
         //使用公共字段填充
@@ -155,11 +158,12 @@ public class EmployeeController {
 
     /**
      * 根据id查询员工信息
+     *
      * @param id
      * @return
      */
     @GetMapping("/{id}")
-    public R<Employee> getById(@PathVariable String id){
+    public R<Employee> getById(@PathVariable String id) {
         Employee emp = employeeService.getById(id);
         if (emp != null) {
             return R.success(emp);

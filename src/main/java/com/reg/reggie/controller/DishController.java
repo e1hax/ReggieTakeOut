@@ -6,7 +6,6 @@ import com.reg.reggie.common.R;
 import com.reg.reggie.dto.DishDto;
 import com.reg.reggie.entity.Category;
 import com.reg.reggie.entity.Dish;
-import com.reg.reggie.entity.DishFlavor;
 import com.reg.reggie.service.CategoryService;
 import com.reg.reggie.service.DishFlavorSerivce;
 import com.reg.reggie.service.DishService;
@@ -118,6 +117,7 @@ public class DishController {
 
     /**
      * 根据id删除
+     *
      * @param id
      * @return
      */
@@ -130,17 +130,18 @@ public class DishController {
 
     /**
      * 修改售卖状态
+     *
      * @param status
      * @param ids
      * @return
      */
     @PostMapping("/status/{status}")
-    public R<String> updateStatus(@PathVariable("status") Integer status ,@RequestParam List<Long> ids){
+    public R<String> updateStatus(@PathVariable("status") Integer status, @RequestParam List<Long> ids) {
         //update dish set status=0 where id in ids
         LambdaQueryWrapper<Dish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.in(ids != null,Dish::getId,ids);
+        lambdaQueryWrapper.in(ids != null, Dish::getId, ids);
         List<Dish> list = dishService.list(lambdaQueryWrapper);
-        list.stream().map((item)->{
+        list.stream().map((item) -> {
             item.setStatus(status);
             return item;
         }).collect(Collectors.toList());
@@ -150,24 +151,24 @@ public class DishController {
 
 
     /**
-     *根据菜品类别查询
+     * 根据菜品类别查询
+     *
      * @param dish
      * @return
      */
     @GetMapping("/list")
-    public R<List<Dish>> list(Dish dish){
+    public R<List<Dish>> list(Dish dish) {
         //构建条件构造器
         LambdaQueryWrapper<Dish> lqw = new LambdaQueryWrapper<>();
         //添加条件
-        lqw.eq(dish.getCategoryId()!=null,Dish::getCategoryId,dish.getCategoryId());
+        lqw.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
         //菜品为起售状态
-        lqw.eq(Dish::getStatus,1);
+        lqw.eq(Dish::getStatus, 1);
 
         List<Dish> list = dishService.list(lqw);
 
         return R.success(list);
     }
-
 
 
 }

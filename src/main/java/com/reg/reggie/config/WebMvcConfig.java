@@ -1,9 +1,7 @@
 package com.reg.reggie.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reg.reggie.common.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -21,6 +19,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     /**
      * 设置静态资源映射路径
+     *
      * @param registry
      */
     @Override
@@ -32,6 +31,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     /**
      * 扩展MVC框架的消息转换器
+     *
      * @param converters
      */
     @Override
@@ -42,7 +42,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         //设置对象转换器
         messageConverter.setObjectMapper(new JacksonObjectMapper());
         //将消息转换器追加到MVC框架的转换器集合中
-        converters.add(0,messageConverter);
+        converters.add(0, messageConverter);
     }
 
 

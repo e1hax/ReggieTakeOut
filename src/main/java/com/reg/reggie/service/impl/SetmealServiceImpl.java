@@ -50,6 +50,7 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
 
     /**
      * 更具id删除套餐，套餐关联的菜品信息
+     *
      * @param ids
      */
     @Override
@@ -71,7 +72,7 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
 
         // delete from setmeal_dish where setmealId in (ids);
         LambdaQueryWrapper<SetmealDish> dishLqw = new LambdaQueryWrapper<>();
-        dishLqw.in(SetmealDish::getSetmealId,ids);
+        dishLqw.in(SetmealDish::getSetmealId, ids);
         //删除 setmeal_dish表中的数据
         setmealDishService.remove(dishLqw);
 

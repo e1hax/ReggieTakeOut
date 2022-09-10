@@ -8,5 +8,5 @@ import com.reg.reggie.entity.Category;
  */
 public interface CategoryService extends IService<Category> {
 
-     void remove(Long id);
+    void remove(Long id);
 }

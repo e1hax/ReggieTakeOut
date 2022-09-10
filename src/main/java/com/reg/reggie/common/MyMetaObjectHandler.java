@@ -20,20 +20,22 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     /**
      * 插入操作，自动填充
+     *
      * @param metaObject
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-       log.info("公共字段填充【insert】。。。");
-       log.info(metaObject.toString());
-       metaObject.setValue("createTime", LocalDateTime.now());
-       metaObject.setValue("updateTime", LocalDateTime.now());
-       metaObject.setValue("createUser", BaseContext.getCurrentId());
-       metaObject.setValue("updateUser", BaseContext.getCurrentId());
+        log.info("公共字段填充【insert】。。。");
+        log.info(metaObject.toString());
+        metaObject.setValue("createTime", LocalDateTime.now());
+        metaObject.setValue("updateTime", LocalDateTime.now());
+        metaObject.setValue("createUser", BaseContext.getCurrentId());
+        metaObject.setValue("updateUser", BaseContext.getCurrentId());
     }
 
     /**
      * 更新操作，自动填充
+     *
      * @param metaObject
      */
     @Override

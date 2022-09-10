@@ -1,11 +1,13 @@
 package com.reg.reggie.common;
 
 import lombok.Data;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 通用返回结果类，服务端返回的数据都会封装成R此对象
+ *
  * @param <T>
  */
 @Data

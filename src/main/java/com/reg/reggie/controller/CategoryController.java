@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * 分类管理
+ *
  * @author e1hax
  * @date 2022-09-09
  */
@@ -26,11 +27,12 @@ public class CategoryController {
 
     /**
      * 新增分类
+     *
      * @param category
      * @return
      */
     @PostMapping
-    public R<String> save(@RequestBody Category category){
+    public R<String> save(@RequestBody Category category) {
         log.info(category.toString());
         categoryService.save(category);
         return R.success("新增分类成功");
@@ -39,6 +41,7 @@ public class CategoryController {
 
     /**
      * 分页查询
+     *
      * @param page
      * @param pageSize
      * @return
@@ -53,18 +56,19 @@ public class CategoryController {
         //添加排序条件
         lqw.orderByAsc(Category::getSort);
 
-        categoryService.page(pageInfo,lqw);
+        categoryService.page(pageInfo, lqw);
 
         return R.success(pageInfo);
     }
 
     /**
      * 根据id删除分类
+     *
      * @param id
      * @return
      */
     @DeleteMapping
-    public R<String> delete(Long id){
+    public R<String> delete(Long id) {
         log.info(id.toString());
         //categoryService.removeById(id);
         categoryService.remove(id);
@@ -73,11 +77,12 @@ public class CategoryController {
 
     /**
      * 根据id修改分类信息
+     *
      * @param category
      * @return
      */
     @PutMapping
-    public R<String> update(@RequestBody Category category){
+    public R<String> update(@RequestBody Category category) {
         log.info(category.toString());
         categoryService.updateById(category);
         return R.success("修改分类信息成功");
@@ -86,17 +91,18 @@ public class CategoryController {
 
     /**
      * 菜品分类列表
+     *
      * @param category
      * @return
      */
     @GetMapping("/list")
-     public R<List<Category>> list(Category category){
+    public R<List<Category>> list(Category category) {
         LambdaQueryWrapper<Category> lqw = new LambdaQueryWrapper<>();
         //添加查询条件
-        lqw.eq(category.getType()!=null,Category::getType,category.getType());
+        lqw.eq(category.getType() != null, Category::getType, category.getType());
         //添加排序条件
         lqw.orderByAsc(Category::getSort).orderByDesc(Category::getUpdateTime);
         List<Category> list = categoryService.list(lqw);
         return R.success(list);
-      }
+    }
 }

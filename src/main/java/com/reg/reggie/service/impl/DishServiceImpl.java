@@ -39,7 +39,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
         //菜品口味
         List<DishFlavor> flavors = dishDto.getFlavors();
-        flavors.stream().map((item) ->{
+        flavors.stream().map((item) -> {
             item.setDishId(disId);
             return item;
         }).collect(Collectors.toList());
@@ -51,20 +51,21 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
     /**
      * 根据菜品id查询口味
+     *
      * @param id
      * @return
      */
     @Override
-    public DishDto getByIdWithFlavor(Long id){
+    public DishDto getByIdWithFlavor(Long id) {
         //根据id从 dish表中查询信息
         Dish dish = this.getById(id);
 
         DishDto dishDto = new DishDto();
-        BeanUtils.copyProperties(dish,dishDto);
+        BeanUtils.copyProperties(dish, dishDto);
 
         //查询当前菜品对应的口味信息，从dish_flavor表查询
         LambdaQueryWrapper<DishFlavor> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(DishFlavor::getDishId,dish.getId());
+        lqw.eq(DishFlavor::getDishId, dish.getId());
         List<DishFlavor> flavors = dishFlavorSerivce.list(lqw);
         dishDto.setFlavors(flavors);
 
@@ -74,23 +75,24 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
     /**
      * 更新dish表，并更新关联的dishflavor表
+     *
      * @param dishDto
      */
     @Override
     @Transactional
-    public void updateWithFlavor(DishDto dishDto){
+    public void updateWithFlavor(DishDto dishDto) {
         //更新dish表
         this.updateById(dishDto);
 
         //清理当前菜品对应口味数据---dish_flavor表的delete操作
         LambdaQueryWrapper<DishFlavor> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(DishFlavor::getDishId,dishDto.getId());
+        lqw.eq(DishFlavor::getDishId, dishDto.getId());
         dishFlavorSerivce.remove(lqw);
 
         //给当前菜品添加提交过来的口味数据----dish_flavor表的insert操作
         List<DishFlavor> flavors = dishDto.getFlavors();
 
-        flavors = flavors.stream().map((item)->{
+        flavors = flavors.stream().map((item) -> {
             item.setDishId(dishDto.getId());
             return item;
         }).collect(Collectors.toList());
@@ -101,25 +103,26 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
     /**
      * 根据id删除菜品，及关联口味
+     *
      * @param id
      */
     @Override
     @Transactional
-    public void deleteWithFlavor(List<Long> id){
+    public void deleteWithFlavor(List<Long> id) {
         //检查售卖状态
         LambdaQueryWrapper<Dish> lqw = new LambdaQueryWrapper<>();
-        lqw.in(Dish::getId,id);
-        lqw.eq(Dish::getStatus,1);
+        lqw.in(Dish::getId, id);
+        lqw.eq(Dish::getStatus, 1);
         int count = this.count(lqw);
-        if (count>0) {
+        if (count > 0) {
             //抛出异常，在售菜品不能删除
-            throw  new RuntimeException("在售菜品，不能删除");
+            throw new RuntimeException("在售菜品，不能删除");
         }
         //删除dish表中相关菜品数据
         this.removeByIds(id);
 
         LambdaQueryWrapper<DishFlavor> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.in(DishFlavor::getDishId,id);
+        lambdaQueryWrapper.in(DishFlavor::getDishId, id);
 
         //删除dish_flavor表中相关口味数据
         dishFlavorSerivce.remove(lambdaQueryWrapper);

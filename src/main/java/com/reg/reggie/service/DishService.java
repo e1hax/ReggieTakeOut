@@ -10,11 +10,11 @@ import java.util.List;
  * Created by e1hax on 2022-09-09.
  */
 public interface DishService extends IService<Dish> {
-      public void saveWithFlavor(DishDto dishDto);
+    public void saveWithFlavor(DishDto dishDto);
 
-      public DishDto getByIdWithFlavor(Long id);
+    public DishDto getByIdWithFlavor(Long id);
 
-      public void updateWithFlavor(DishDto dishDto);
+    public void updateWithFlavor(DishDto dishDto);
 
-      void deleteWithFlavor(List<Long> id);
+    void deleteWithFlavor(List<Long> id);
 }
