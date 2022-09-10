@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.image.VolatileImage;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,6 +72,10 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     }
 
 
+    /**
+     * 更新dish表，并更新关联的dishflavor表
+     * @param dishDto
+     */
     @Override
     @Transactional
     public void updateWithFlavor(DishDto dishDto){
@@ -94,4 +97,32 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
         dishFlavorSerivce.saveBatch(flavors);
     }
+
+
+    /**
+     * 根据id删除菜品，及关联口味
+     * @param id
+     */
+    @Override
+    @Transactional
+    public void deleteWithFlavor(List<Long> id){
+        //检查售卖状态
+        LambdaQueryWrapper<Dish> lqw = new LambdaQueryWrapper<>();
+        lqw.in(Dish::getId,id);
+        lqw.eq(Dish::getStatus,1);
+        int count = this.count(lqw);
+        if (count>0) {
+            //抛出异常，在售菜品不能删除
+            throw  new RuntimeException("在售菜品，不能删除");
+        }
+        //删除dish表中相关菜品数据
+        this.removeByIds(id);
+
+        LambdaQueryWrapper<DishFlavor> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(DishFlavor::getDishId,id);
+
+        //删除dish_flavor表中相关口味数据
+        dishFlavorSerivce.remove(lambdaQueryWrapper);
+    }
+
 }

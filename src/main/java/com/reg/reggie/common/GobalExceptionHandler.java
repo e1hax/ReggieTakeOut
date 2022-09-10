@@ -46,4 +46,15 @@ public class GobalExceptionHandler{
         log.error(ex.getMessage());
         return  R.error(ex.getMessage());
     }
+
+    /**
+     * 删除套餐异常处理方法
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public R<String> exceptionHandler(RuntimeException ex){
+        log.error(ex.getMessage());
+        return  R.error(ex.getMessage());
+    }
 }
