@@ -123,4 +123,19 @@ public class SetmealController {
         setmealService.updateBatchById(list);
         return R.success("修改状态成功");
     }
+
+
+    /**
+     * 查询套餐id查询套餐信息
+     * @param setmeal
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Setmeal>> getSetmeal(Setmeal setmeal){
+        LambdaQueryWrapper<Setmeal> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(setmeal!=null,Setmeal::getCategoryId,setmeal.getCategoryId())
+                .eq(Setmeal::getStatus,setmeal.getStatus());
+        List<Setmeal> list = setmealService.list(lambdaQueryWrapper);
+        return R.success(list);
+    }
 }

@@ -49,7 +49,7 @@ public class GobalExceptionHandler {
     }
 
     /**
-     * 删除套餐异常处理方法
+     * 运行异常处理方法
      *
      * @param ex
      * @return
